@@ -3,11 +3,12 @@ FROM golang:1.21-alpine AS builder
 
 WORKDIR /app
 
-# Copy go.mod and go.sum (if they exist)
-COPY go.mod go.sum* ./
+# Copy go.mod if it exists, or create a new one
+COPY go.mod* ./
+RUN if [ ! -f go.mod ]; then go mod init sumica; fi
 
-# Initialize module and download dependencies
-RUN go mod download
+# Download dependencies (if any)
+RUN go mod tidy
 
 # Copy the rest of the code
 COPY . .
