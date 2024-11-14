@@ -15,7 +15,7 @@ COPY backend/*.go ./
 RUN CGO_ENABLED=0 GOOS=linux go build -o backend .
 
 # Download PocketBase and make it executable
-RUN wget -O pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.9.3/pocketbase_0.9.3_linux_amd64.zip && \
+RUN wget -O pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.22.24/pocketbase_0.22.24_linux_amd64.zip && \
     unzip pocketbase.zip && \
     chmod +x pocketbase
 
