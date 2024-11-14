@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - pocketbase
+    networks:
+      - app-network
+    environment:
+      - POCKETBASE_URL=http://pocketbase:8090
+    volumes:
+      - ./frontend:/app/frontend
+
+  pocketbase:
+    build:
+      context: ./pocketbase
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    volumes:
+      - pocketbase_data:/pb_data
+    networks:
+      - app-network
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  pocketbase_data:
+    driver: local
